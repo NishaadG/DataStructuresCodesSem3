@@ -81,18 +81,23 @@ void insertAfterValue(int value , int nodeval , Node* head){
     }
 }
 
-int LLsize(Node* head){
-    Node* temp = head;
-    int count=1;
-    while(temp!=NULL){
-        count++;
+Node* insertMiddle(int val , Node* head){
+    Node * newNode  = new Node(val , NULL);
+    if(head==NULL) return newNode;
+    if(head->next==NULL){
+        head->next=newNode;
     }
-    return count;
-}
-
-void insertMiddle(int val , Node* head){
-    int middle = LLsize(head) /2 ;
-    insertAtPosition(middle , val  ,head);
+    Node* fast = head;
+    Node* prev=NULL;
+    Node* slow = head;
+    while(fast!=NULL&&fast->next!=NULL){
+        prev=slow;
+        slow=slow->next;
+        fast=fast->next->next;
+    }
+    newNode->next=slow;
+    prev->next=newNode;
+    return head;
 }
 
 void removeValue(int val , Node* head){
@@ -115,5 +120,7 @@ int main() {
     vector <int> arr = {1,2,3,5};
     int n = sizeof(arr);
     Node* head = constructLL(arr );
+    insertMiddle(21,head);
     printLL(head);
     return 0;
+}
