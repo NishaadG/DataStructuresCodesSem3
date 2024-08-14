@@ -56,12 +56,35 @@ void insertAtTail(Node* head , int value){
 }
 
 void deleteNode(Node* head , int value){
-    Node* temp = 
+    Node* temp = head;
+    while(temp!=NULL){
+        if(temp->data==value){
+            break;
+        }
+        temp=temp->next;
+    }
+    if(temp->data==value){
+        temp->prev->next=temp->next;
+        temp->next->prev=temp->prev;
+        delete temp;
+    }
+    else{
+        cout<<"value not found";
+    }
+}
+
+void insertAtPosition(Node* head , int pos ,  int value){
+    Node* temp = head;
+    Node* newNode = new Node(value);
+    while(temp!=NULL){
+        
+    }
 }
 
 int main(){
     vector <int > arr ={1,2,3,4,5};
     Node* head =constructDLL(arr);
     insertAtTail(head,123);
+    deleteNode(head,3);
     printDLL(head);
 }
