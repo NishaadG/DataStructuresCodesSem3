@@ -81,10 +81,26 @@ void insertAtPosition(Node* head , int pos ,  int value){
     }
 }
 
+void insertAfterValue (Node* head , int val , int actualval){
+    Node* temp = head;
+    while(temp!=NULL){
+        if(temp->data==val){
+            break;
+        }
+        temp=temp->next;
+    }
+    if(temp->data==val){
+        Node* newNode = new Node(actualval);
+        newNode->next=temp->next;
+        temp->next->prev=newNode;
+        newNode->prev=temp;
+        temp->next=newNode;
+    }
+}
+
 int main(){
     vector <int > arr ={1,2,3,4,5};
     Node* head =constructDLL(arr);
-    insertAtTail(head,123);
-    deleteNode(head,3);
+    insertAfterValue(head,3 , 123);
     printDLL(head);
 }
