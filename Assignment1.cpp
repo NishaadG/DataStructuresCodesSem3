@@ -109,6 +109,24 @@ void searchPatient(Node* head , string nametbf){
     cout<<"Name not found."<<endl;
     return ;
 }
+
+Node* addAtMiddle(Node* head , Node* newNode){
+    if(head==NULL) return newNode;
+    if(head->next==NULL){
+        head->next=newNode;
+        return head;
+    }
+    Node* fast = head->next;
+    Node* slow = head;
+    while(fast!=NULL&&fast->next!=NULL){
+        fast=fast->next->next;
+        slow=slow->next;
+    }
+    newNode->next=slow->next;
+    slow->next=newNode;
+    
+    return head;
+}
 int main(){
     int choice;
     Node* head=NULL;
@@ -133,6 +151,9 @@ int main(){
             if(position==1){
                 head = addAtStart(head , newNode);
             }
+            else if(position==2){
+                head = addAtMiddle(head , newNode);
+            }
             else if(position==3){
                 head = addAtEnd(head , newNode);
             }
@@ -143,7 +164,7 @@ int main(){
             int changechoice;
             cout<<"Enter name of patient whose info has to be changed : "<<endl;
             cin>>tbfname;
-            cout<<"Enter data that has to be changed  ( 1 : ID , 2 : Priority , 3 : Name )  : :" <<endl;
+            cout<<"Enter data that has to be changed  ( 1 : ID , 2 : Priority )  : :" <<endl;
             cin>>changechoice;
             cout<<"Enter changed to : "<<endl;
             int data;
