@@ -17,14 +17,7 @@ class Node{
         this->category = category;
         next=NULL;
     }
-    Node(int id ,string name  , int quantity , int price){
-        this->id=id;
-        this->name = name;
-        this->price = price;
-        this->quantity = quantity;
-        this->category = "default";
-        next=NULL;
-    }
+    
 };
 
 void DisplayMenu(){
@@ -60,8 +53,8 @@ Node* removeItem( Node* head , string nametbr){
     }
 }
 
-Node* newItem(int id,string Name , int quantity ,int price){
-    Node* temp = new Node (id , Name , quantity,price);
+Node* newItem(int id,string Name , int quantity ,int price , string category){
+    Node* temp = new Node (id , Name , quantity,price,category);
     return temp;
 }
 
@@ -145,9 +138,9 @@ int main(){
     do{
         DisplayMenu();
         cin>>choice;
-        if(choice>5||choice<0) cout<< "Invalid input choose again ."<<endl;;
+        if(choice>6||choice<0) cout<< "Invalid input choose again ."<<endl;;
         if(choice==1){
-            string Name;
+            string Name , category;
             int quantity , price , id;
             cout<<"Enter Name of the product : " << endl;
             cin>>Name;
@@ -158,7 +151,8 @@ int main(){
             cout<<"Enter price of product : "<<endl;
             cin>>price;
             cout<<"Enter category of the product (enter default for no category ) : " <<endl;
-            Node* newNode = newItem(id , Name ,quantity , price);
+            cin>>category;
+            Node* newNode = newItem(id , Name ,quantity , price,category);
             head = addAtEnd(head , newNode);
         }
         else if(choice==2){
@@ -193,7 +187,7 @@ int main(){
             cout<<"Enter category whose value is to be calculated : " <<endl;
             cin>>catname;
             int catvalue = categoryValue(head , catname);
-            cout<<"Value of " << catname << " is "<<catvalue;
+            cout<<"Value of " << catname << " is "<<catvalue<<endl;
         }
     }while(choice!=6);
 }
