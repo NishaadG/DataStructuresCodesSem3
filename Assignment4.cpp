@@ -53,11 +53,24 @@ vector<vector<int>> convertToCompact(vector<vector<int>>nums){
     return efficientArr;
 }
 
-vector <pair<int , int > > highestMarkStudents(vector<vector<int>>nums){
-    vector <pair<int ,int > highestMark;
-    for(int i = 0 ;i < nums.size();i++){
-        if()
+vector<vector<int>> highestMarkStudents(vector<vector<int>>nums){
+    vector<vector<int>> highestMark; 
+    int subjects = nums[0].size();
+    int students = nums.size();
+    for(int i =0 ;i < subjects+1;i++){
+        int maxmarks = 0;
+        int index = -1;
+        for(int j = 0; j < students ;j++){
+            if(nums[j][1]==i){
+                if(maxmarks<nums[j][2]){
+                    maxmarks = nums[j][2];
+                    index = nums[j][0];
+                }
+            }
+        }
+        highestMark.push_back({index+1 , maxmarks});
     }
+    return highestMark;
 }
 
 int main(){
@@ -74,14 +87,14 @@ int main(){
     int subjects = nums[0].size();
     vector <vector <int> >efficientArr;
     efficientArr = convertToCompact(nums);
-    
-    
-    
     cout<<"Efficient Array : " <<endl;
     printArray(efficientArr);
-    cout<<"avg marks : " <<endl;
+    cout<<"Avg marks : " <<endl;
     printArray(findAverage(efficientArr , subjects,students));
     pair < int , int > highest ;
     highest = highestAverage(efficientArr , subjects,students);
-    cout<<"maximum average : "<<highest.first <<" Subject : "<<highest.second;
+    cout<<"maximum average : "<<highest.first <<" Subject : "<<highest.second<<endl;
+    cout<<"Student Index and Highest Marks per subject "<<endl;
+    vector<vector<int>> highestMark = highestMarkStudents(efficientArr); 
+    printArray(highestMark);
 }
