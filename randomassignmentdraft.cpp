@@ -1,147 +1,155 @@
-#include <stdio.h>
+#include <iostream>
 #include <string>
 using namespace std;
 
-class Customer_Service{
+class Customer_Service {
     int reqID;
     string Name;
     string Task;
-    Customer_Service(int ID , string Name , string Task){
-        this->reqID = reqID;
+
+public:
+    Customer_Service(int ID, string Name, string Task) {
+        this->reqID = ID;
         this->Name = Name;
         this->Task = Task;
     }
-};
-
-class Node{
-    public:
-    Customer_Service data;
-    Node* next;
-    Node(Customer_Service givendata){
-        data = givendata;
-        next=NULL;
-    }
-};
-
-class Queue{
-    Node* front=NULL;
-    Node* rear=NULL;
-    public:
-    int size=0;
-    Queue(){
-        front = NULL;
-    }
-    bool isEmpty(){
-        if(front==NULL){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
     
-    void push(Customer_Service data){
+    void display() const {
+        cout << "ID: " << reqID << ", Name: " << Name << ", Task: " << Task << endl;
+    }
+};
+
+class Node {
+public:
+    Customer_Service data; 
+    Node* next;
+    Node(Customer_Service givendata) {
+        this->data = givendata;
+        this->next = NULL;
+    }
+};
+
+class Queue {
+    Node* front;
+    Node* rear;
+
+public:
+    int size;
+
+    Queue() : front(NULL), rear(NULL), size(0) {}
+
+    bool isEmpty() {
+        return front == NULL;
+    }
+
+    void push(Customer_Service data) {
         Node* newNode = new Node(data);
-        if(front==NULL){
-            front=newNode;
-            rear=newNode;
+        if (rear) {
+            rear->next = newNode;
+        } else {
+            front = newNode;
         }
-        else if(newNode==NULL){
-            cout<<"Queue is full" <<endl ;
-        }
-        else{
-            rear->next=newNode;
-            rear=newNode;
-        }
+        rear = newNode;
         size++;
     }
-    Customer_Service pop () {
-        if(isEmpty()){
-            cout<<"Queue is empty"<<endl;
-            return;
+
+    Customer_Service pop() {
+        if (isEmpty()) {
+            throw runtime_error("Queue is empty");
         }
-        else{
-            size--;
-            Customer_Service val = front->data;
-            front=front->next;
-            return val;
-        }
-    }
-    
-    Customer_Service top(){
-         if(isEmpty()){
-            cout<<"Queue is empty"<<endl;
-            return 0;
-        }
-        else{
-            return front->data;
-        }
-    }
-    /*void printAll(){
         Node* temp = front;
-        while(temp!=NULL){
-            cout<<temp->data<<endl;
-            temp=temp->next;
+        Customer_Service val = front->data;
+        front = front->next;
+        if (front == NULL) {
+            rear = NULL;
         }
-    }*/
+        delete temp;
+        size--;
+        return val;
+    }
+
+    Customer_Service top() {
+        if (isEmpty()) {
+            throw runtime_error("Queue is empty");
+        }
+        return front->data;
+    }
+
+    void printAll() {
+        Node* temp = front;
+        while (temp != NULL) {
+            temp->data.display();
+            temp = temp->next;
+        }
+    }
 };
-class Customer_Service_Management{
-    public:
-    Customer_Service_Management(){
-        Queue queue;
+
+class Customer_Service_Management {
+    Queue queue;
+
+public:
+    void Add_Service(Customer_Service data) {
+        queue.push(data);
     }
-    void Add_Service(Customer_Service data){
-        queue.push(data)
+
+    void Process_Service() {
+        try {
+            Customer_Service temp = queue.pop();
+            temp.display();
+        } catch (const runtime_error& e) {
+            cout << e.what() << endl;
+        }
     }
-    
-    void Process_Service(){
-        Customer_Service temp = queue.pop();
-         temp;
+
+    void Display_Services() {
+        queue.printAll();
+    }
+
+    int Count_Services() {
+        return queue.size;
     }
 };
 
-
-
-void DisplayMenu(){
-    cout<<"Enter option 1 for Adding Service"<<endl;
-    cout<<"Enter option 2 for Process Service" <<endl;
-    cout<<"Enter option 3 for Display the services"<<endl;
-    cout<<"Enter option 4 for count of services" <<endl;
-    cout<<"Enter option 5 for exiting" <<endl;
-    cout<<"Enter your choice  : ";
+void DisplayMenu() {
+    cout << "Enter option 1 for Adding Service" << endl;
+    cout << "Enter option 2 for Processing Service" << endl;
+    cout << "Enter option 3 for Displaying Services" << endl;
+    cout << "Enter option 4 for Counting Services" << endl;
+    cout << "Enter option 5 for Exiting" << endl;
+    cout << "Enter your choice: ";
 }
-    
 
-int main(){
+int main() {
     Customer_Service_Management CMS;
     int choice;
-    do{
+    
+    do {
         DisplayMenu();
-        cin>>choice;
-        if(choice>6||choice<0) cout<< "Invalid input choose again ."<<endl;;
-        if(choice==1){
+        cin >> choice;
+        
+        if (choice < 1 || choice > 5) {
+            cout << "Invalid input. Choose again." << endl;
+            continue;
+        }
+
+        if (choice == 1) {
             int id;
-            string name , string task;
-            cout<<"Enter ID of task : ";
-            cin>>id;
-            cout<<"Enter Name : ";
-            cin>>name;
-            cout<<"Enter type of service : "
-            cin>>task;
-            CMS.add_service(id,name,task);
+            string name, task;
+            cout << "Enter ID of task: ";
+            cin >> id;
+            cout << "Enter Name: ";
+            cin >> name;
+            cout << "Enter type of service: ";
+            cin >> task;
+            CMS.Add_Service(Customer_Service(id, name, task));
+        } else if (choice == 2) {
+            CMS.Process_Service();
+        } else if (choice == 3) {
+            CMS.Display_Services();
+        } else if (choice == 4) {
+            cout << "Count of services: " << CMS.Count_Services() << endl;
         }
-        else if(choice==2){
-            
-            cout<<"Task : " <<CMS.pop() <<endl;
-        }
-        else if(choice==3){
-            cout<<"Value of topmost element in stack : "<<Q.top()<<endl;
-        }
-        else if(choice==4){
-            cout<<"Size of stack is : " << Q.size<<endl;
-        }
-        else if(choice==5){
-            Q.printAll();
-        }
-    }while(choice!=6);
+    } while (choice != 5);
+
+    return 0;
 }
