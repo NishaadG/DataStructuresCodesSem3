@@ -28,6 +28,14 @@ public:
         this->next = NULL;
     }
 };
+/*
+    class Node {
+public:
+    Customer_Service data;
+    Node* next;
+
+    Node(Customer_Service givendata) : data(givendata), next(NULL) {}
+};*/
 
 class Queue {
     Node* front;
