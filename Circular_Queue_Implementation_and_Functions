@@ -1,0 +1,118 @@
+#include <bits/stdc++.h>
+using namespace std;
+class Node{
+    public:
+    int data;
+    Node* next;
+    Node(int givdata  , Node* givnext){
+        data=givdata;
+        next=givnext;
+    }
+    Node(int givendata){
+        data = givendata;
+        next=NULL;
+    }
+};
+
+class CircularQueue{
+    Node* front=NULL;
+    Node* rear=NULL;
+    public:
+    int size=0;
+    CircularQueue(){
+        front = NULL;
+    }
+    bool isEmpty(){
+        if(front==NULL){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    void push(int data){
+        Node* newNode = new Node(data);
+        if(front==NULL){
+            front=newNode;
+            rear=newNode;
+        }
+        else if(newNode==NULL){
+            cout<<"Queue is full" <<endl ;
+        }
+        else{
+            rear->next=newNode;
+            rear=newNode;
+        }
+        rear->next=front;
+        size++;
+    }
+    int pop () {
+        if(isEmpty()){
+            cout<<"Queue is empty"<<endl;
+            return 0;
+        }
+        else{
+            size--;
+            int val = front->data;
+            front=front->next;
+            rear->next=front;
+            return val;
+        }
+    }
+    
+    int top(){
+         if(isEmpty()){
+            cout<<"Queue is empty"<<endl;
+            return 0;
+        }
+        else{
+            return front->data;
+        }
+    }
+    void printAll(){
+        Node* temp = front;
+        while(temp!=rear){
+            cout<<temp->data<<endl;
+            temp=temp->next;
+        }
+        cout<<temp->data<<endl;
+    }
+};
+
+void DisplayMenu(){
+    cout<<"Enter option 1 for push function"<<endl;
+    cout<<"Enter option 2 for pop function" <<endl;
+    cout<<"Enter option 3 for top function"<<endl;
+    cout<<"Enter option 4 for size of queue" <<endl;
+    cout<<"Enter option 5 for printing all values of queue" <<endl;
+    cout<<"Enter option 6 for exiting the system" <<endl;
+    cout<<"Enter your choice  : ";
+}
+int main(){
+    CircularQueue cq;
+    int choice;
+    do{
+        DisplayMenu();
+        cin>>choice;
+        if(choice>6||choice<0) cout<< "Invalid input choose again ."<<endl;;
+        if(choice==1){
+            int val;
+            cout<<"Enter value to be pushed : ";
+            cin>>val;
+            cq.push(val);
+        }
+        else if(choice==2){
+            cout<<"Value that has been popped : " <<cq.pop() <<endl;
+        }
+        else if(choice==3){
+            cout<<"Value of front element in Queue : "<<cq.top()<<endl;
+        }
+        else if(choice==4){
+            cout<<"Size of Queue is : " <<cq.size<<endl;
+        }
+        else if(choice==5){
+            cq.printAll();
+        }
+    }while(choice!=6);
+}
