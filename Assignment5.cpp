@@ -9,6 +9,7 @@ class Node{
     int price;
     string category;
     Node* next;
+    Node* prev;
     Node(int id ,string name  , int quantity , int price,string category){
         this->id=id;
         this->name = name;
@@ -16,6 +17,7 @@ class Node{
         this->quantity = quantity;
         this->category = category;
         next=NULL;
+        prev = NULL;
     }
     
 };
