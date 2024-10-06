@@ -34,19 +34,19 @@ void DisplayMenu(){
 
 Node* removeItem( Node* head , string nametbr){
     if(head->name==nametbr){
+        head->next->prev=NULL;
         return head->next;
     }
     Node* temp = head;
-    Node* prev = NULL;
     while(temp!=NULL){
         if(nametbr==temp->name){
             break;
         }
-        prev=temp;
         temp=temp->next;
     }
     if(temp->name==nametbr){
-        prev->next=temp->next;
+        temp->prev->next = temp->next;
+        temp->next->prev = temp->prev;
         return head;
     }
     else{
@@ -73,6 +73,7 @@ Node* addAtEnd(Node* head , Node *  newNode){
         temp=temp->next;
     }
     temp->next=newNode;
+    newNode->prev = temp;
     return head;
 }
 
