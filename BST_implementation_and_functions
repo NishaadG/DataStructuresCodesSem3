@@ -1,0 +1,97 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Node{
+    public:
+    Node* left;
+    Node* right;
+    int data;
+    
+    Node(int data){
+        this->data = data;
+        this->left =NULL;
+        this->right =NULL;
+    }
+};
+
+Node* sortedArrayToBST(vector<int>& arr,int start, int end) {
+    if(start > end) return nullptr;
+    int mid = start + (end - start) / 2;
+    Node* root = new Node(arr[mid]);
+    root->left = sortedArrayToBST(arr, start,mid - 1);
+    root->right = sortedArrayToBST(arr, mid + 1,end);
+    return root;
+}
+
+void preOrder(Node* root){
+    if(root == NULL) return ;
+    cout<<root->data<<" ";
+    preOrder(root->left);
+    preOrder(root->right);
+}
+
+void inOrder(Node* root){
+    if(root==NULL) return ;
+    inOrder(root->left);
+    cout<<root->data<<" ";
+    inOrder(root->right);
+}
+
+void postOrder(Node* root){
+    if(root==NULL) return ;
+    postOrder(root->left);
+    postOrder(root->right);
+    cout<<root->data<<" ";
+}
+
+bool BSTsearch(Node* root , int tbs){
+    if(root==NULL)  return false;
+    if(root->data==tbs) return true;
+    if(root->data>=tbs){
+        if(root->left) return BSTsearch(root->left,tbs);
+    }
+    else{
+        if(root->right) return BSTsearch(root->right,tbs);
+    }
+    return false;
+}
+
+Node* addNode(Node* root , Node* newNode){
+    if(root==NULL) return newNode;
+    if(newNode->data<root->data){
+        if(root->left) addNode(root->left, newNode);
+        else root->left = newNode;
+    }
+    else{
+        if(root->right) addNode(root->right , newNode);
+        else root->right = newNode;
+    }
+    return root;
+}
+
+int main(){
+    int num;
+    cout<<"Enter number of elements in the tree : ";
+    cin>>num;
+    vector<int> arr(num);
+    for(int i=0;i<num;i++){
+        cout<<"Enter element number "<<i+1<<": ";
+        cin>>arr[i];
+    }
+    sort(arr.begin(),arr.end());
+    Node* root = sortedArrayToBST(arr,0,num-1);
+    inOrder(root);
+    cout<<endl;
+    int tbinserted;
+    cout<<"Value to be inserted : ";
+    cin>>tbinserted;
+    Node* newNode = new Node(tbinserted);
+    root  = addNode(root , newNode);
+    inOrder(root);
+   /* int tbs;
+    cout<<"Enter element to search : ";
+    cin>>tbs;
+    bool present = BSTsearch(root,tbs);
+    if(present) cout<<"Found";
+    else cout<<"Absent";*/
+}
