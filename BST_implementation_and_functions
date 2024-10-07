@@ -69,6 +69,47 @@ Node* addNode(Node* root , Node* newNode){
     return root;
 }
 
+/*Node* removeNode(Node* root , int tbremoved){
+    if(root==NULL) return NULL;
+    if(root->left&&root->left->data == tbremoved){
+        Node* tbr = root->left;
+        if(tbr->left==NULL&&tbr->right==NULL){
+            delete root;
+        }
+        else if(tbr->left!=NULL&&tbr->right!=NULL){}
+        else{
+            if(tbr->left)root->left= tbr->left;
+            else{
+                root->left = tbr->right;
+            }
+        }
+    }
+    else if(root->right&&root->right->data==tbremoved){
+        Node* tbr = root->right;
+        if(tbr->left==NULL&&tbr->right==NULL){
+            delete root;
+        }
+        else if(tbr->left!=NULL&&tbr->right!=NULL){}
+        else{
+            if(tbr->left)root->left= tbr->left;
+            else{
+                root->right = tbr->right;
+            }
+        }
+    }
+    else{
+        if(tbremoved<root->data){
+            if(root->left) removeNode(root->left, tbremoved);
+            else return NULL;
+        }
+        else{
+            if(root->right) removeNode(root->right ,tbremoved);
+            else return NULL;
+        }
+    }
+    return root;    
+}*/
+
 int main(){
     int num;
     cout<<"Enter number of elements in the tree : ";
@@ -83,11 +124,11 @@ int main(){
     inOrder(root);
     cout<<endl;
     int tbinserted;
-    cout<<"Value to be inserted : ";
+    cout<<"Value to be removed : ";
     cin>>tbinserted;
-    Node* newNode = new Node(tbinserted);
-    root  = addNode(root , newNode);
+    root = removeNode(root,tbinserted);
     inOrder(root);
+    
    /* int tbs;
     cout<<"Enter element to search : ";
     cin>>tbs;
