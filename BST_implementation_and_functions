@@ -69,6 +69,33 @@ Node* addNode(Node* root , Node* newNode){
     return root;
 }
 
+void mirrorTree(Node* root){
+    if(root==NULL) return;
+    swap(root->left,root->right);
+    mirrorTree(root->left);
+    mirrorTree(root->right);
+}
+
+int treeDepth(Node* root , int count){
+    if(root==NULL) return count;
+    count++;
+    return max(treeDepth(root->left,count),treeDepth(root->right,count));
+}
+
+int treeSize(Node* root){
+    if(root==NULL) return 0;
+    return max(treeSize(root->left),treeSize(root->right)) +1;
+}
+
+Node* copyTree(Node* root){
+    if(root==NULL) return NULL;
+    Node* newHead = new Node(root->data);
+    Node* newLeft = copyTree(root->left);
+    Node* newRight = copyTree(root->right);
+    newHead->left = newLeft;
+    newHead->right = newRight;
+    return newHead;
+}
 /*Node* removeNode(Node* root , int tbremoved){
     if(root==NULL) return NULL;
     if(root->left&&root->left->data == tbremoved){
@@ -123,11 +150,20 @@ int main(){
     Node* root = sortedArrayToBST(arr,0,num-1);
     inOrder(root);
     cout<<endl;
-    int tbinserted;
+    mirrorTree(root);
+    inOrder(root);
+    cout<<endl;
+    Node* copyRoot = copyTree(root);
+    inOrder(copyRoot);
+    cout<<root<<endl;
+    cout<<copyRoot<<endl;
+    /*cout<<treeDepth(root,0);
+    cout<<treeSize(root);*/
+    /*int tbinserted;
     cout<<"Value to be removed : ";
     cin>>tbinserted;
     root = removeNode(root,tbinserted);
-    inOrder(root);
+    inOrder(root);*/
     
    /* int tbs;
     cout<<"Enter element to search : ";
