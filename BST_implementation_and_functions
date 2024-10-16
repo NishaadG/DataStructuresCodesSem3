@@ -96,6 +96,25 @@ Node* copyTree(Node* root){
     newHead->right = newRight;
     return newHead;
 }
+
+void printParentNodes(Node* root){
+    if(root==NULL) return ;
+    if(root->left==NULL&&root->right==NULL){}
+    else{
+        cout<<root->data<<" ";
+    }
+    printParentNodes(root->left);
+    printParentNodes(root->right);
+}
+
+void printLeafNodes(Node* root){
+    if(root==NULL) return ;
+    if(root->left==NULL&&root->right==NULL){
+        cout<<root->data<<" ";
+    }
+    printLeafNodes(root->left);
+    printLeafNodes(root->right);
+}
 /*Node* removeNode(Node* root , int tbremoved){
     if(root==NULL) return NULL;
     if(root->left&&root->left->data == tbremoved){
@@ -150,13 +169,12 @@ int main(){
     Node* root = sortedArrayToBST(arr,0,num-1);
     inOrder(root);
     cout<<endl;
-    mirrorTree(root);
-    inOrder(root);
+    printLeafNodes(root);
     cout<<endl;
-    Node* copyRoot = copyTree(root);
-    inOrder(copyRoot);
+    printParentNodes(root);
+    /*inOrder(copyRoot);
     cout<<root<<endl;
-    cout<<copyRoot<<endl;
+    cout<<copyRoot<<endl;*/
     /*cout<<treeDepth(root,0);
     cout<<treeSize(root);*/
     /*int tbinserted;
