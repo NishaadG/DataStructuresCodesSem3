@@ -15,27 +15,19 @@ public:
     }
     
     void display() const {
-        cout << "ID: " << reqID << ", Name: " << Name << ", Task: " << Task << endl;
+        cout << "ID: " << reqID << ", Name: " << Name << ", Task: "
+ << Task << endl;
     }
 };
 
 class Node {
 public:
-    Customer_Service data; 
-    Node* next;
-    Node(Customer_Service givendata) {
-        this->data = givendata;
-        this->next = NULL;
-    }
-};
-/*
-    class Node {
-public:
     Customer_Service data;
     Node* next;
 
-    Node(Customer_Service givendata) : data(givendata), next(NULL) {}
-};*/
+    Node(Customer_Service givendata) : data(givendata), 
+next(NULL) {}
+};
 
 class Queue {
     Node* front;
@@ -46,7 +38,7 @@ public:
 
     Queue() : front(NULL), rear(NULL), size(0) {}
 
-    bool isEmpty() {
+    bool isEmpty() const {
         return front == NULL;
     }
 
@@ -76,14 +68,14 @@ public:
         return val;
     }
 
-    Customer_Service top() {
+    Customer_Service top() const {
         if (isEmpty()) {
             throw runtime_error("Queue is empty");
         }
         return front->data;
     }
 
-    void printAll() {
+    void printAll() const {
         Node* temp = front;
         while (temp != NULL) {
             temp->data.display();
@@ -109,11 +101,11 @@ public:
         }
     }
 
-    void Display_Services() {
+    void Display_Services() const {
         queue.printAll();
     }
 
-    int Count_Services() {
+    int Count_Services() const {
         return queue.size;
     }
 };
@@ -139,16 +131,17 @@ int main() {
             cout << "Invalid input. Choose again." << endl;
             continue;
         }
-
         if (choice == 1) {
             int id;
             string name, task;
             cout << "Enter ID of task: ";
             cin >> id;
             cout << "Enter Name: ";
-            cin >> name;
+            getline(cin, name);
+
             cout << "Enter type of service: ";
-            cin >> task;
+            getline(cin, task);
+
             CMS.Add_Service(Customer_Service(id, name, task));
         } else if (choice == 2) {
             CMS.Process_Service();
